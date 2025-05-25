@@ -26,6 +26,7 @@ Attributes:
   - location: string (search by city or location name)
   - description: string (text description of the blog)
   - cover_image: string
+  - status: enum (draft, published, archived)
   - tags: list of strings
   - images: list of strings (URLs)
   - videos: list of strings (URLs)
