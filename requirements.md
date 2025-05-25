@@ -7,10 +7,22 @@
 - User can add a title and description
 - User can add a cover image
 
+Entity: User
+Attributes:
+  - id: int
+  - email: string (unique)
+  - password: string (hashed)
+  - role: enum (admin, traveler, explorer)
+  - profile_image: string (URL to profile image)
+  - bio: string (short bio of the user)
+  - created_at: datetime
+  - updated_at: datetime
+
 Entity: Blog
 Attributes:
   - id: int
   - title: string
+  - userId: int (foreign key to User)
   - location: string (search by city or location name)
   - description: string (text description of the blog)
   - cover_image: string
@@ -29,8 +41,8 @@ Attributes:
   - id: int
   - type: string (bus, train, flight)
   - name: string (name of the transport)  (user will have suggestions)
-  - starting_point: string (starting point of the transport)
-  - destination: string (destination of the transport)
+  - startingPoint: location
+  - destination: location
   - departure_time: datetime
   - arrival_time: datetime (optional)
   - Fare: float  (user will have suggestions for fare from previous data)
@@ -39,7 +51,7 @@ Lodge:
 Attributes:
   - id: int
   - name: string (name of the lodge)
-  - location: string (map url)
+  - location: location
   - price_per_night: float
   - description: string (text description of the lodge)
   - images: list of strings (URLs)
@@ -50,6 +62,21 @@ Attributes:
   - label: string (food, activity, place)
   - data: [string] (comma seperated list of strings)
 
+Table: BlogTransport
+Attributes:
+  - blogId: int (foreign key to Blog)
+  - transportId: int (foreign key to Transport)
+
+Table: BlogLodge
+Attributes:
+  - blogId: int (foreign key to Blog)
+  - lodgeId: int (foreign key to Lodge)
+
+Table: BlogRecommendation
+Attributes:
+  - blogId: int (foreign key to Blog)
+  - recommendationId: int (foreign key to Recommendation)
+
 ## Module2:  Wishlist Management
 - User can add a blog to their wishlist
 - we extract location and tags from the blog
@@ -59,10 +86,11 @@ Attributes:
 Entity: Wishlist
 Attributes:
   - id: int
-  - location: string (from the blog or search by city or location name)
+  - location: location (from the blog or search by city or location name)
   - estimated_travel_date: datetime
   - tags: list of strings
   - note: string
+  - userId: int (foreign key to User)
   - blog_id: int (foreign key to Blog) (optional)
   - promo: string (url of any external blog or video) (optional)
   - created_at: datetime
@@ -92,12 +120,18 @@ Attributes:
   - description: string (text description of the blog)
   - transportDetails: [transport]
   - lodgeDetails: [lodge]
+  - ChatGroupId: int (foreign key to GroupChat)
   - members: [users]
-  - notification_marker: [marked_location]
+  - notification_marker: [location]
   - status: (upcomming, ongoing, completed)
   - created_at: datetime
   - updated_at: datetime
 
+
+Table: TripMembers
+Attributes:
+  - tripId: int (foreign key to Trip)
+  - userId: int (foreign key to User)
 
 Entity: TripRequest
 Attributes:
@@ -111,17 +145,34 @@ Attributes:
 
 ### submodule 3.1 Group Chat
 Entity: GroupChat
-Will complete after finding a convenient way
+Attributes:
+  - id: int
+  - name: string
+  - members: [int] (list of user IDs)
+  - created_at: datetime
+  - updated_at: datetime
 
+Entity: Message
+Attributes:
+  - id: int
+  - groupChatId: int (foreign key to GroupChat)
+  - userId: int (foreign key to User)
+  - content: string (text content of the message)
+  - timestamp: datetime
+  - media: list of strings (URLs for images or videos, optional)
+
+Table: GroupChatMembers
+Attributes:
+  - groupChatId: int (foreign key to GroupChat)
+  - userId: int (foreign key to User)
 
 ### submodule 3.2 Proximity Notification
-Entity: Marked_Location
+Entity: Location
 Attributes:
   - id: int
   - name: string
   - lat: float
   - long: float
-  - radius: float
   - isComplete: boolean
 
 
