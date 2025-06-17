@@ -1,0 +1,2445 @@
+openapi: 3.0.3
+info:
+  title: Cefalo Travel Connect API
+  description: A comprehensive travel platform API for social sharing, trip planning, and community building
+  version: 1.0.0
+  contact:
+    name: Cefalo Travel Connect Team
+    email: support@cefalo.com
+servers:
+  - url: https://api.cefalo-travel.com/v1
+    description: Production server
+  - url: https://staging-api.cefalo-travel.com/v1
+    description: Staging server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        role:
+          type: string
+          enum: [admin, traveler, explorer]
+          example: "explorer"
+        profile_image:
+          type: string
+          format: uri
+          example: "https://example.com/images/profile.jpg"
+        bio:
+          type: string
+          example: "Travel enthusiast exploring the world"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    Blog:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Amazing Journey to Santorini"
+        userId:
+          type: integer
+          example: 1
+        locationName:
+          type: string
+          example: "Santorini, Greece"
+        locationPoints:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+              example: 36.3932
+            longitude:
+              type: number
+              format: float
+              example: 25.4615
+        description:
+          type: string
+          example: "A wonderful experience exploring the beautiful island"
+        cover_image:
+          type: string
+          format: uri
+          example: "https://example.com/images/santorini.jpg"
+        status:
+          type: string
+          enum: [draft, published, archived]
+          example: "published"
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["beach", "sunset", "greece"]
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+        videos:
+          type: array
+          items:
+            type: string
+            format: uri
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    Transport:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          enum: [bus, train, flight, boat]
+          example: "flight"
+        name:
+          type: string
+          example: "Emirates Flight EK123"
+        startingLocationName:
+          type: string
+          example: "Dubai International Airport"
+        startingPoint:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+        destinationLocationName:
+          type: string
+          example: "Athens International Airport"
+        destinationPoint:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+        departure_time:
+          type: string
+          format: date-time
+        fare:
+          type: number
+          format: float
+          example: 450.50
+    
+    Lodge:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Santorini Sunset Hotel"
+        locationName:
+          type: string
+          example: "Oia, Santorini"
+        locationPoints:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+        price_per_night:
+          type: number
+          format: float
+          example: 150.00
+        description:
+          type: string
+          example: "Luxury hotel with stunning sunset views"
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+    
+    Recommendation:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        blogId:
+          type: integer
+          example: 1
+        label:
+          type: string
+          enum: [food, activity, place]
+          example: "food"
+        data:
+          type: string
+          example: "Try the local moussaka at Taverna Dimitris"
+    
+    Wishlist:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        locationName:
+          type: string
+          example: "Bali, Indonesia"
+        estimated_travel_date:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["beach", "culture", "temples"]
+        note:
+          type: string
+          example: "Planning honeymoon trip"
+        coverImage:
+          type: string
+          format: uri
+        userId:
+          type: integer
+          example: 1
+    
+    Trip:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        plannerId:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "European Adventure 2024"
+        description:
+          type: string
+          example: "Exploring major European cities"
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        coverImage:
+          type: string
+          format: uri
+        groupChatId:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [in-progress, completed]
+          example: "in-progress"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    TripRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tripId:
+          type: integer
+          example: 1
+        senderId:
+          type: integer
+          example: 2
+        receiverId:
+          type: integer
+          example: 3
+        message:
+          type: string
+          example: "Would you like to join our trip to Europe?"
+        status:
+          type: string
+          enum: [pending, accepted, rejected]
+          example: "pending"
+    
+    GroupChat:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        creatorId:
+          type: integer
+          example: 1
+        tripId:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "European Adventure Chat"
+        created_at:
+          type: string
+          format: date-time
+    
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        groupChatId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        content:
+          type: string
+          example: "Looking forward to our trip!"
+        timestamp:
+          type: string
+          format: date-time
+    
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Bad Request"
+        details:
+          type: string
+          example: "Invalid input parameters"
+
+security:
+  - BearerAuth: []
+
+paths:
+  # Authentication & User Management
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: User registration
+      description: Register a new user with email, password, and name
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+                name:
+                  type: string
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate user with email and password
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Reset password
+      description: Request password reset (to be implemented)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Password reset email sent
+        '404':
+          description: User not found
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user profile
+      description: Retrieve user profile information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    
+    put:
+      tags:
+        - Users
+      summary: Update user profile
+      description: Update user profile information (cannot update email)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum: [admin, traveler, explorer]
+                profile_image:
+                  type: string
+                  format: uri
+                bio:
+                  type: string
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden - cannot update other user's profile
+        '404':
+          description: User not found
+
+  # Blog Management
+  /blogs:
+    post:
+      tags:
+        - Blogs
+      summary: Create a new blog
+      description: Create a new travel blog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - locationName
+                - locationPoints
+                - description
+              properties:
+                title:
+                  type: string
+                locationName:
+                  type: string
+                locationPoints:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Blog created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    get:
+      tags:
+        - Blogs
+      summary: Get blogs
+      description: Retrieve blogs with optional filtering
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+          description: Filter by user ID
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, published, archived]
+          description: Filter by status
+        - name: locationName
+          in: query
+          schema:
+            type: string
+          description: Filter by location
+        - name: tags
+          in: query
+          schema:
+            type: string
+          description: Filter by tags (comma-separated)
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Blogs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blogs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Blog'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      totalPages:
+                        type: integer
+
+  /blogs/{id}:
+    get:
+      tags:
+        - Blogs
+      summary: Get blog by ID
+      description: Retrieve a specific blog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Blog retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+        '404':
+          description: Blog not found
+    
+    put:
+      tags:
+        - Blogs
+      summary: Update blog
+      description: Update blog content and metadata
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                cover_image:
+                  type: string
+                  format: uri
+                status:
+                  type: string
+                  enum: [draft, published, archived]
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                videos:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Blog updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+        '403':
+          description: Forbidden - cannot update other user's blog
+        '404':
+          description: Blog not found
+    
+    delete:
+      tags:
+        - Blogs
+      summary: Delete blog
+      description: Delete a blog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Blog deleted successfully
+        '403':
+          description: Forbidden - cannot delete other user's blog
+        '404':
+          description: Blog not found
+
+  # Transport Management
+  /transports:
+    get:
+      tags:
+        - Transports
+      summary: Search transports
+      description: Search for available transports
+      parameters:
+        - name: startingLocationName
+          in: query
+          schema:
+            type: string
+        - name: destinationLocationName
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [bus, train, flight, boat]
+        - name: departure_date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Transports retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
+    
+    post:
+      tags:
+        - Transports
+      summary: Create new transport
+      description: Add a new transport option
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - name
+                - startingLocationName
+                - startingPoint
+                - destinationLocationName
+                - destinationPoint
+                - departure_time
+                - fare
+              properties:
+                type:
+                  type: string
+                  enum: [bus, train, flight, boat]
+                name:
+                  type: string
+                startingLocationName:
+                  type: string
+                startingPoint:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                destinationLocationName:
+                  type: string
+                destinationPoint:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                departure_time:
+                  type: string
+                  format: date-time
+                fare:
+                  type: number
+                  format: float
+      responses:
+        '201':
+          description: Transport created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+
+  /transports/starting-locations:
+    get:
+      tags:
+        - Transports
+      summary: Get starting location names
+      description: Retrieve all available starting locations
+      responses:
+        '200':
+          description: Starting locations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /transports/destination-locations:
+    get:
+      tags:
+        - Transports
+      summary: Get destination location names  
+      description: Retrieve all available destination locations
+      responses:
+        '200':
+          description: Destination locations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  # Blog Transport Management
+  /blogs/{blogId}/transports:
+    get:
+      tags:
+        - Blog Transports
+      summary: Get blog transports
+      description: Retrieve all transports associated with a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Blog transports retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
+        '404':
+          description: Blog not found
+    
+    post:
+      tags:
+        - Blog Transports
+      summary: Add transport to blog
+      description: Associate a transport with a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - transportId
+              properties:
+                transportId:
+                  type: integer
+      responses:
+        '201':
+          description: Transport added to blog successfully
+        '404':
+          description: Blog or transport not found
+        '409':
+          description: Transport already associated with blog
+
+  /blogs/{blogId}/transports/{transportId}:
+    delete:
+      tags:
+        - Blog Transports
+      summary: Remove transport from blog
+      description: Remove transport association from blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: transportId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transport removed from blog successfully
+        '404':
+          description: Blog, transport, or association not found
+
+  # Lodge Management
+  /lodges:
+    get:
+      tags:
+        - Lodges
+      summary: Search lodges
+      description: Search for available lodges
+      parameters:
+        - name: locationName
+          in: query
+          schema:
+            type: string
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: Lodges retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lodge'
+    
+    post:
+      tags:
+        - Lodges
+      summary: Create new lodge
+      description: Add a new lodge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - locationName
+                - locationPoints
+                - price_per_night
+                - description
+              properties:
+                name:
+                  type: string
+                locationName:
+                  type: string
+                locationPoints:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                price_per_night:
+                  type: number
+                  format: float
+                description:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+      responses:
+        '201':
+          description: Lodge created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lodge'
+
+  /lodges/locations:
+    get:
+      tags:
+        - Lodges
+      summary: Get lodge location names
+      description: Retrieve all available lodge locations
+      responses:
+        '200':
+          description: Lodge locations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  # Blog Lodge Management
+  /blogs/{blogId}/lodges:
+    get:
+      tags:
+        - Blog Lodges
+      summary: Get blog lodges
+      description: Retrieve all lodges associated with a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Blog lodges retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lodge'
+        '404':
+          description: Blog not found
+    
+    post:
+      tags:
+        - Blog Lodges
+      summary: Add lodge to blog
+      description: Associate a lodge with a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lodgeId
+              properties:
+                lodgeId:
+                  type: integer
+      responses:
+        '201':
+          description: Lodge added to blog successfully
+        '404':
+          description: Blog or lodge not found
+        '409':
+          description: Lodge already associated with blog
+
+  /blogs/{blogId}/lodges/{lodgeId}:
+    delete:
+      tags:
+        - Blog Lodges
+      summary: Remove lodge from blog
+      description: Remove lodge association from blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: lodgeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Lodge removed from blog successfully
+        '404':
+          description: Blog, lodge, or association not found
+
+  # Recommendations Management
+  /blogs/{blogId}/recommendations:
+    get:
+      tags:
+        - Recommendations
+      summary: Get blog recommendations
+      description: Retrieve all recommendations for a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: label
+          in: query
+          schema:
+            type: string
+            enum: [food, activity, place]
+      responses:
+        '200':
+          description: Recommendations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recommendation'
+        '404':
+          description: Blog not found
+    
+    post:
+      tags:
+        - Recommendations
+      summary: Create blog recommendation
+      description: Add a new recommendation to a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+                - data
+              properties:
+                label:
+                  type: string
+                  enum: [food, activity, place]
+                data:
+                  type: string
+      responses:
+        '201':
+          description: Recommendation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recommendation'
+        '404':
+          description: Blog not found
+
+  /blogs/{blogId}/recommendations/{recommendationId}:
+    delete:
+      tags:
+        - Recommendations
+      summary: Delete recommendation
+      description: Remove a recommendation from a blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: recommendationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Recommendation deleted successfully
+        '404':
+          description: Blog or recommendation not found
+
+  # Wishlist Management
+  /wishlists:
+    get:
+      tags:
+        - Wishlists
+      summary: Get wishlists
+      description: Retrieve user wishlists
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+          description: Filter by user ID
+      responses:
+        '200':
+          description: Wishlists retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Wishlist'
+    
+    post:
+      tags:
+        - Wishlists
+      summary: Create wishlist
+      description: Create a new wishlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - locationName
+                - estimated_travel_date
+              properties:
+                locationName:
+                  type: string
+                estimated_travel_date:
+                  type: string
+                  format: date-time
+                tags:
+                  type: array
+                  items:
+                    type: string
+                note:
+                  type: string
+                coverImage:
+                  type: string
+                  format: uri
+      responses:
+        '201':
+          description: Wishlist created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+
+  /wishlists/{id}:
+    get:
+      tags:
+        - Wishlists
+      summary: Get wishlist by ID
+      description: Retrieve a specific wishlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Wishlist retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+        '404':
+          description: Wishlist not found
+    
+    put:
+      tags:
+        - Wishlists
+      summary: Update wishlist
+      description: Update wishlist information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locationName:
+                  type: string
+                estimated_travel_date:
+                  type: string
+                  format: date-time
+                tags:
+                  type: array
+                  items:
+                    type: string
+                note:
+                  type: string
+                coverImage:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: Wishlist updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+        '404':
+          description: Wishlist not found
+    
+    delete:
+      tags:
+        - Wishlists
+      summary: Delete wishlist
+      description: Delete a wishlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Wishlist deleted successfully
+        '404':
+          description: Wishlist not found
+
+  # Wishlist Blogs
+  /wishlist-blogs:
+    get:
+      tags:
+        - Wishlist Blogs
+      summary: Get wishlist blogs
+      description: Retrieve blogs added to wishlists
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Wishlist blogs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    userId:
+                      type: integer
+                    blogId:
+                      type: integer
+                    blog:
+                      $ref: '#/components/schemas/Blog'
+    
+    post:
+      tags:
+        - Wishlist Blogs
+      summary: Add blog to wishlist
+      description: Add a blog to user's wishlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - blogId
+              properties:
+                blogId:
+                  type: integer
+      responses:
+        '201':
+          description: Blog added to wishlist successfully
+        '404':
+          description: Blog not found
+        '409':
+          description: Blog already in wishlist
+
+  /wishlist-blogs/{id}:
+    get:
+      tags:
+        - Wishlist Blogs
+      summary: Get wishlist blog by ID
+      description: Retrieve a specific wishlist blog entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Wishlist blog retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  userId:
+                    type: integer
+                  blogId:
+                    type: integer
+                  blog:
+                    $ref: '#/components/schemas/Blog'
+        '404':
+          description: Wishlist blog not found
+    
+    delete:
+      tags:
+        - Wishlist Blogs
+      summary: Remove blog from wishlist
+      description: Remove a blog from user's wishlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Blog removed from wishlist successfully
+        '404':
+          description: Wishlist blog not found
+
+  # Trip Management
+  /trips:
+    get:
+      tags:
+        - Trips
+      summary: Get trips
+      description: Retrieve trips with optional filtering
+      parameters:
+        - name: plannerId
+          in: query
+          schema:
+            type: integer
+          description: Filter by planner ID
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [in-progress, completed]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Trips retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trips:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trip'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      totalPages:
+                        type: integer
+    
+    post:
+      tags:
+        - Trips
+      summary: Create trip
+      description: Create a new trip
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+                - startDate
+                - endDate
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                coverImage:
+                  type: string
+                  format: uri
+      responses:
+        '201':
+          description: Trip created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+
+  /trips/{id}:
+    get:
+      tags:
+        - Trips
+      summary: Get trip by ID
+      description: Retrieve a specific trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trip retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+        '404':
+          description: Trip not found
+    
+    put:
+      tags:
+        - Trips
+      summary: Update trip
+      description: Update trip information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                coverImage:
+                  type: string
+                  format: uri
+                status:
+                  type: string
+                  enum: [in-progress, completed]
+      responses:
+        '200':
+          description: Trip updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+        '403':
+          description: Forbidden - cannot update other user's trip
+        '404':
+          description: Trip not found
+    
+    delete:
+      tags:
+        - Trips
+      summary: Delete trip
+      description: Delete a trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Trip deleted successfully
+        '403':
+          description: Forbidden - cannot delete other user's trip
+        '404':
+          description: Trip not found
+
+  # Trip Members
+  /trip-members:
+    get:
+      tags:
+        - Trip Members
+      summary: Get trip members
+      description: Retrieve trip members
+      parameters:
+        - name: tripId
+          in: query
+          schema:
+            type: integer
+          description: Filter by trip ID
+      responses:
+        '200':
+          description: Trip members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    tripId:
+                      type: integer
+                    userId:
+                      type: integer
+                    user:
+                      $ref: '#/components/schemas/User'
+    
+    post:
+      tags:
+        - Trip Members
+      summary: Add member to trip
+      description: Add a member to a trip
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tripId
+                - userId
+              properties:
+                tripId:
+                  type: integer
+                userId:
+                  type: integer
+      responses:
+        '201':
+          description: Member added to trip successfully
+        '404':
+          description: Trip or user not found
+        '409':
+          description: User already member of trip
+
+  /trip-members/{id}:
+    get:
+      tags:
+        - Trip Members
+      summary: Get trip member by ID
+      description: Retrieve a specific trip member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trip member retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  tripId:
+                    type: integer
+                  userId:
+                    type: integer
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: Trip member not found
+    
+    delete:
+      tags:
+        - Trip Members
+      summary: Remove member from trip
+      description: Remove a member from a trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Member removed from trip successfully
+        '404':
+          description: Trip member not found
+
+  # Matchmaking & Trip Requests
+  /matches:
+    get:
+      tags:
+        - Matchmaking
+      summary: Find travel matches
+      description: Find users with similar travel plans
+      parameters:
+        - name: locationName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: travelDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Matches found successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matches:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user:
+                          $ref: '#/components/schemas/User'
+                        wishlist:
+                          $ref: '#/components/schemas/Wishlist'
+                        matchScore:
+                          type: number
+                          format: float
+                          example: 0.85
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      totalPages:
+                        type: integer
+
+  /trip-requests:
+    get:
+      tags:
+        - Trip Requests
+      summary: Get trip requests
+      description: Retrieve trip requests
+      parameters:
+        - name: senderId
+          in: query
+          schema:
+            type: integer
+        - name: receiverId
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, accepted, rejected]
+      responses:
+        '200':
+          description: Trip requests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TripRequest'
+    
+    post:
+      tags:
+        - Trip Requests
+      summary: Create trip request
+      description: Send a trip request to another user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tripId
+                - receiverId
+                - message
+              properties:
+                tripId:
+                  type: integer
+                receiverId:
+                  type: integer
+                message:
+                  type: string
+      responses:
+        '201':
+          description: Trip request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRequest'
+        '404':
+          description: Trip or receiver not found
+        '409':
+          description: Trip request already exists
+
+  /trip-requests/{id}:
+    get:
+      tags:
+        - Trip Requests
+      summary: Get trip request by ID
+      description: Retrieve a specific trip request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trip request retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRequest'
+        '404':
+          description: Trip request not found
+    
+    put:
+      tags:
+        - Trip Requests
+      summary: Update trip request status
+      description: Accept or reject a trip request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [accepted, rejected]
+      responses:
+        '200':
+          description: Trip request updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRequest'
+        '404':
+          description: Trip request not found
+        '403':
+          description: Forbidden - cannot update other user's request
+    
+    delete:
+      tags:
+        - Trip Requests
+      summary: Delete trip request
+      description: Delete a trip request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Trip request deleted successfully
+        '404':
+          description: Trip request not found
+
+  # Trip Transport Management
+  /trips/{tripId}/transports:
+    get:
+      tags:
+        - Trip Transports
+      summary: Get trip transports
+      description: Retrieve all transports for a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trip transports retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
+        '404':
+          description: Trip not found
+    
+    post:
+      tags:
+        - Trip Transports
+      summary: Add transport to trip
+      description: Add a transport to a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - transportId
+              properties:
+                transportId:
+                  type: integer
+      responses:
+        '201':
+          description: Transport added to trip successfully
+        '404':
+          description: Trip or transport not found
+        '409':
+          description: Transport already associated with trip
+
+  /trips/{tripId}/transports/{transportId}:
+    delete:
+      tags:
+        - Trip Transports
+      summary: Remove transport from trip
+      description: Remove a transport from a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: transportId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transport removed from trip successfully
+        '404':
+          description: Trip, transport, or association not found
+
+  # Trip Lodge Management
+  /trips/{tripId}/lodges:
+    get:
+      tags:
+        - Trip Lodges
+      summary: Get trip lodges
+      description: Retrieve all lodges for a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trip lodges retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lodge'
+        '404':
+          description: Trip not found
+    
+    post:
+      tags:
+        - Trip Lodges
+      summary: Add lodge to trip
+      description: Add a lodge to a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lodgeId
+              properties:
+                lodgeId:
+                  type: integer
+      responses:
+        '201':
+          description: Lodge added to trip successfully
+        '404':
+          description: Trip or lodge not found
+        '409':
+          description: Lodge already associated with trip
+
+  /trips/{tripId}/lodges/{lodgeId}:
+    delete:
+      tags:
+        - Trip Lodges
+      summary: Remove lodge from trip
+      description: Remove a lodge from a trip
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: lodgeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Lodge removed from trip successfully
+        '404':
+          description: Trip, lodge, or association not found
+
+  # Group Chat Management
+  /chats:
+    post:
+      tags:
+        - Group Chats
+      summary: Create group chat
+      description: Create a new group chat for a trip
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tripId
+                - name
+              properties:
+                tripId:
+                  type: integer
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Group chat created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChat'
+        '404':
+          description: Trip not found
+        '409':
+          description: Group chat already exists for this trip
+
+  /chats/{id}:
+    get:
+      tags:
+        - Group Chats
+      summary: Get group chat
+      description: Retrieve group chat information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Group chat retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChat'
+        '404':
+          description: Group chat not found
+    
+    put:
+      tags:
+        - Group Chats
+      summary: Update group chat
+      description: Update group chat information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Group chat updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChat'
+        '404':
+          description: Group chat not found
+        '403':
+          description: Forbidden - only creator can update chat
+    
+    delete:
+      tags:
+        - Group Chats
+      summary: Delete group chat
+      description: Delete a group chat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Group chat deleted successfully
+        '404':
+          description: Group chat not found
+        '403':
+          description: Forbidden - only creator can delete chat
+
+  # Messages Management
+  /chats/{chatId}/messages:
+    get:
+      tags:
+        - Messages
+      summary: Get chat messages
+      description: Retrieve messages from a group chat
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: before
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Get messages before this timestamp
+      responses:
+        '200':
+          description: Messages retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Message'
+                        - type: object
+                          properties:
+                            user:
+                              $ref: '#/components/schemas/User'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      totalPages:
+                        type: integer
+        '404':
+          description: Group chat not found
+        '403':
+          description: Forbidden - not a member of this chat
+    
+    post:
+      tags:
+        - Messages
+      summary: Send message
+      description: Send a message to a group chat
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  maxLength: 1000
+      responses:
+        '201':
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Message'
+                  - type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+        '404':
+          description: Group chat not found
+        '403':
+          description: Forbidden - not a member of this chat
+
+  # Additional utility endpoints
+  /locations/search:
+    get:
+      tags:
+        - Locations
+      summary: Search locations
+      description: Search for locations using PostGIS
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query (city or location name)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Locations found successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Santorini, Greece"
+                    latitude:
+                      type: number
+                      format: float
+                      example: 36.3932
+                    longitude:
+                      type: number
+                      format: float
+                      example: 25.4615
+                    country:
+                      type: string
+                      example: "Greece"
+                    region:
+                      type: string
+                      example: "South Aegean"
+
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user profile
+      description: Get the authenticated user's profile
+      responses:
+        '200':
+          description: Current user profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
+  /upload/image:
+    post:
+      tags:
+        - Upload
+      summary: Upload image
+      description: Upload an image file
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to upload
+                category:
+                  type: string
+                  enum: [profile, blog, lodge, trip]
+                  description: Category of the image
+      responses:
+        '200':
+          description: Image uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    example: "https://example.com/images/uploaded-image.jpg"
+                  filename:
+                    type: string
+                    example: "uploaded-image.jpg"
+        '400':
+          description: Invalid file format or size
+        '413':
+          description: File too large
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Users
+    description: User profile management
+  - name: Blogs
+    description: Travel blog management and sharing
+  - name: Transports
+    description: Transportation options and management
+  - name: Blog Transports
+    description: Transport associations with blogs
+  - name: Lodges
+    description: Accommodation options and management
+  - name: Blog Lodges
+    description: Lodge associations with blogs
+  - name: Recommendations
+    description: Travel recommendations management
+  - name: Wishlists
+    description: User wishlist management
+  - name: Wishlist Blogs
+    description: Blog associations with wishlists
+  - name: Trips
+    description: Trip planning and management
+  - name: Trip Members
+    description: Trip member management
+  - name: Matchmaking
+    description: Travel companion matching
+  - name: Trip Requests
+    description: Trip invitation and request management
+  - name: Trip Transports
+    description: Transport associations with trips
+  - name: Trip Lodges
+    description: Lodge associations with trips
+  - name: Group Chats
+    description: Trip group chat management
+  - name: Messages
+    description: Chat message management
+  - name: Locations
+    description: Location search and management
+  - name: Upload
+    description: File upload services
