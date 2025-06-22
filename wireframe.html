@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cefalo Travel Connect - Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .wireframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .screen {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #e1e8ed;
+        }
+        
+        .screen-title {
+            background: #3498db;
+            color: white;
+            padding: 10px 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .wireframe-element {
+            border: 2px dashed #bdc3c7;
+            padding: 10px;
+            margin: 10px 0;
+            background: #ecf0f1;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            margin: 5px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+        }
+        
+        .button.secondary {
+            background: #95a5a6;
+        }
+        
+        .button.danger {
+            background: #e74c3c;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 4px;
+            background: #fff;
+        }
+        
+        .nav-bar {
+            background: #34495e;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .nav-item {
+            display: inline-block;
+            color: white;
+            padding: 5px 10px;
+            margin-right: 10px;
+            background: #2c3e50;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+        
+        .card-header {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .badge {
+            background: #27ae60;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .badge.draft {
+            background: #f39c12;
+        }
+        
+        .badge.archived {
+            background: #95a5a6;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .flow-step {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 10px;
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .wireframe-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Cefalo Travel Connect - Application Wireframe</h1>
+        <p>Complete User Journey & Interface Design</p>
+    </div>
+    
+    <div class="container">
+        <!-- Authentication Flow -->
+        <div class="flow-diagram">
+            <h2>Authentication Flow</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <span class="flow-step">Landing Page</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Login/Signup</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Dashboard</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Profile Setup</span>
+            </div>
+        </div>
+        
+        <div class="wireframe-grid">
+            <!-- Login Screen -->
+            <div class="screen">
+                <div class="screen-title">🔐 Login Screen</div>
+                <div class="wireframe-element">
+                    <h3>Welcome Back</h3>
+                    <p>Sign in to your account</p>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="form-input">email@example.com</div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="form-input">••••••••</div>
+                </div>
+                <button class="button">Sign In</button>
+                <button class="button secondary">Forgot Password?</button>
+                <div class="wireframe-element">
+                    <p>Don't have an account? <strong>Sign Up</strong></p>
+                </div>
+            </div>
+            
+            <!-- Signup Screen -->
+            <div class="screen">
+                <div class="screen-title">📝 Signup Screen</div>
+                <div class="wireframe-element">
+                    <h3>Join Travel Connect</h3>
+                    <p>Create your explorer account</p>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <div class="form-input">John Doe</div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="form-input">email@example.com</div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="form-input">••••••••</div>
+                </div>
+                <button class="button">Create Account</button>
+                <div class="wireframe-element">
+                    <p>Role: <span class="badge">Explorer</span> (default)</p>
+                </div>
+            </div>
+            
+            <!-- Dashboard -->
+            <div class="screen">
+                <div class="screen-title">🏠 Dashboard</div>
+                <div class="nav-bar">
+                    <span class="nav-item">Blogs</span>
+                    <span class="nav-item">Trips</span>
+                    <span class="nav-item">Wishlist</span>
+                    <span class="nav-item">Profile</span>
+                </div>
+                <div class="wireframe-element">
+                    <h3>Welcome, John!</h3>
+                    <p>Ready for your next adventure?</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">Quick Actions</div>
+                    <button class="button">Create Blog</button>
+                    <button class="button">Plan Trip</button>
+                    <button class="button">Add Wishlist</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">Recent Activity</div>
+                    <div class="list-item">
+                        <span>Cox's Bazar Blog</span>
+                        <span class="badge draft">Draft</span>
+                    </div>
+                    <div class="list-item">
+                        <span>Sylhet Trip</span>
+                        <span class="badge">Active</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Screen -->
+            <div class="screen">
+                <div class="screen-title">👤 Profile Management</div>
+                <div class="wireframe-element">
+                    <div style="text-align: center;">
+                        [Profile Image]<br>
+                        <button class="button secondary">Upload Photo</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <div class="form-input">John Doe</div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="form-input">john@example.com (read-only)</div>
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <div class="form-input">Travel enthusiast exploring Bangladesh...</div>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <div class="form-input">Explorer</div>
+                </div>
+                <button class="button">Update Profile</button>
+            </div>
+        </div>
+        
+        <!-- Blog Management Flow -->
+        <div class="flow-diagram">
+            <h2>Blog Creation Flow</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <span class="flow-step">Create Blog</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Add Content</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Add Transport</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Add Lodge</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Add Recommendations</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Publish</span>
+            </div>
+        </div>
+        
+        <div class="wireframe-grid">
+            <!-- Create Blog -->
+            <div class="screen">
+                <div class="screen-title">✍️ Create Blog</div>
+                <div class="form-group">
+                    <label>Blog Title</label>
+                    <div class="form-input">My Amazing Trip to Cox's Bazar</div>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <div class="form-input">Cox's Bazar, Bangladesh</div>
+                    <div class="wireframe-element">
+                        <small>📍 Lat: 21.4272, Lng: 92.0058</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <div class="form-input" style="height: 80px;">Write your travel story...</div>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div class="form-input">beach, seafood, sunset</div>
+                </div>
+                <button class="button">Save as Draft</button>
+                <div class="wireframe-element">
+                    <p>Status: <span class="badge draft">Draft</span></p>
+                </div>
+            </div>
+            
+            <!-- Blog Editor -->
+            <div class="screen">
+                <div class="screen-title">📝 Blog Editor</div>
+                <div class="nav-bar">
+                    <span class="nav-item">Content</span>
+                    <span class="nav-item">Transport</span>
+                    <span class="nav-item">Lodge</span>
+                    <span class="nav-item">Recommendations</span>
+                </div>
+                <div class="wireframe-element">
+                    <h3>Cox's Bazar Adventure</h3>
+                    <p>Status: <span class="badge draft">Draft</span></p>
+                </div>
+                <div class="form-group">
+                    <label>Cover Image</label>
+                    <button class="button secondary">Upload Cover</button>
+                </div>
+                <div class="form-group">
+                    <label>Media Gallery</label>
+                    <button class="button secondary">Add Images</button>
+                    <button class="button secondary">Add Videos</button>
+                </div>
+                <div class="wireframe-element">
+                    <div>[Image Thumbnails]</div>
+                </div>
+                <button class="button">Publish Blog</button>
+                <button class="button secondary">Save Changes</button>
+            </div>
+            
+            <!-- Transport Selection -->
+            <div class="screen">
+                <div class="screen-title">🚌 Add Transport</div>
+                <div class="form-group">
+                    <label>From</label>
+                    <div class="form-input">Dhaka</div>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <div class="form-input">Cox's Bazar</div>
+                </div>
+                <div class="form-group">
+                    <label>Transport Type</label>
+                    <div class="form-input">Bus</div>
+                </div>
+                <button class="button">Search Transport</button>
+                
+                <div class="card">
+                    <div class="card-header">Available Transport</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Green Line Paribahan</strong><br>
+                            <small>Departure: 10:00 PM</small>
+                        </div>
+                        <div>
+                            <div>৳1,200</div>
+                            <button class="button">Add</button>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Shohagh Paribahan</strong><br>
+                            <small>Departure: 11:30 PM</small>
+                        </div>
+                        <div>
+                            <div>৳1,000</div>
+                            <button class="button">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="button secondary">Create New Transport</button>
+            </div>
+            
+            <!-- Lodge Selection -->
+            <div class="screen">
+                <div class="screen-title">🏨 Add Lodge</div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <div class="form-input">Cox's Bazar</div>
+                </div>
+                <button class="button">Search Lodges</button>
+                
+                <div class="card">
+                    <div class="card-header">Available Lodges</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Sea Palace Hotel</strong><br>
+                            <small>Beach view, AC room</small>
+                        </div>
+                        <div>
+                            <div>৳3,500/night</div>
+                            <button class="button">Add</button>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Ocean Paradise</strong><br>
+                            <small>Pool, restaurant</small>
+                        </div>
+                        <div>
+                            <div>৳4,200/night</div>
+                            <button class="button">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="button secondary">Add New Lodge</button>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="screen">
+                <div class="screen-title">💡 Add Recommendations</div>
+                <div class="card">
+                    <div class="card-header">Food Recommendations</div>
+                    <div class="form-group">
+                        <div class="form-input">Fresh seafood at Kolatoli Beach</div>
+                        <button class="button">Add</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Activity Recommendations</div>
+                    <div class="form-group">
+                        <div class="form-input">Sunset watching at Inani Beach</div>
+                        <button class="button">Add</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Place Recommendations</div>
+                    <div class="form-group">
+                        <div class="form-input">Himchari National Park</div>
+                        <button class="button">Add</button>
+                    </div>
+                </div>
+                <div class="wireframe-element">
+                    <h4>Current Recommendations:</h4>
+                    <div class="list-item">
+                        <span>🍽️ Fresh seafood at Kolatoli Beach</span>
+                        <button class="button danger">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wishlist & Trip Planning -->
+        <div class="flow-diagram">
+            <h2>Trip Planning Flow</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <span class="flow-step">Create Wishlist</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Find Matches</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Create Trip</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Add Members</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Group Chat</span>
+            </div>
+        </div>
+        
+        <div class="wireframe-grid">
+            <!-- Wishlist Creation -->
+            <div class="screen">
+                <div class="screen-title">⭐ Create Wishlist</div>
+                <div class="form-group">
+                    <label>Destination</label>
+                    <div class="form-input">Sajek Valley</div>
+                </div>
+                <div class="form-group">
+                    <label>Estimated Travel Date</label>
+                    <div class="form-input">2024-12-15</div>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div class="form-input">hills, nature, photography</div>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <div class="form-input">Want to see the cloud sea</div>
+                </div>
+                <div class="form-group">
+                    <label>Cover Image</label>
+                    <button class="button secondary">Upload Cover</button>
+                </div>
+                <button class="button">Create Wishlist</button>
+            </div>
+            
+            <!-- Wishlist Management -->
+            <div class="screen">
+                <div class="screen-title">📋 My Wishlists</div>
+                <button class="button">Add New Wishlist</button>
+                
+                <div class="card">
+                    <div class="card-header">Sajek Valley Adventure</div>
+                    <p><strong>Date:</strong> Dec 15, 2024</p>
+                    <p><strong>Tags:</strong> hills, nature, photography</p>
+                    <div style="margin-top: 10px;">
+                        <button class="button">Edit</button>
+                        <button class="button secondary">Find Matches</button>
+                        <button class="button danger">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Saved Blogs</div>
+                    <div class="list-item">
+                        <span>Cox's Bazar Beach Guide</span>
+                        <button class="button secondary">View</button>
+                    </div>
+                    <div class="list-item">
+                        <span>Sundarbans Wildlife Experience</span>
+                        <button class="button secondary">View</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Matchmaking -->
+            <div class="screen">
+                <div class="screen-title">🤝 Find Travel Matches</div>
+                <div class="wireframe-element">
+                    <h3>Looking for: Sajek Valley</h3>
+                    <p>Travel Date: Dec 15, 2024</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Potential Travel Partners</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Sarah Ahmed</strong><br>
+                            <small>Wants to visit Sajek on Dec 12-16</small><br>
+                            <small>Tags: photography, hiking</small>
+                        </div>
+                        <button class="button">Send Request</button>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Rahman Khalil</strong><br>
+                            <small>Planning Sajek trip in December</small><br>
+                            <small>Tags: nature, camping</small>
+                        </div>
+                        <button class="button">Send Request</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trip Creation -->
+            <div class="screen">
+                <div class="screen-title">🎒 Create Trip</div>
+                <div class="form-group">
+                    <label>Trip Title</label>
+                    <div class="form-input">Sajek Valley Winter Adventure</div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <div class="form-input">3-day trip to explore Sajek Valley...</div>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <div class="form-input">2024-12-15</div>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <div class="form-input">2024-12-17</div>
+                </div>
+                <div class="form-group">
+                    <label>Cover Image</label>
+                    <button class="button secondary">Upload Cover</button>
+                </div>
+                <button class="button">Create Trip</button>
+            </div>
+            
+            <!-- Trip Management -->
+            <div class="screen">
+                <div class="screen-title">📅 Trip Dashboard</div>
+                <div class="nav-bar">
+                    <span class="nav-item">Overview</span>
+                    <span class="nav-item">Members</span>
+                    <span class="nav-item">Transport</span>
+                    <span class="nav-item">Lodge</span>
+                    <span class="nav-item">Chat</span>
+                </div>
+                
+                <div class="wireframe-element">
+                    <h3>Sajek Valley Winter Adventure</h3>
+                    <p>Dec 15-17, 2024 • <span class="badge">In Progress</span></p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Trip Members (3)</div>
+                    <div class="list-item">
+                        <span>John Doe (Planner)</span>
+                        <span class="badge">Organizer</span>
+                    </div>
+                    <div class="list-item">
+                        <span>Sarah Ahmed</span>
+                        <button class="button danger">Remove</button>
+                    </div>
+                    <div class="list-item">
+                        <span>Rahman Khalil</span>
+                        <button class="button danger">Remove</button>
+                    </div>
+                    <button class="button">Add Member</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Quick Actions</div>
+                    <button class="button">Add Transport</button>
+                    <button class="button">Add Lodge</button>
+                    <button class="button">Open Group Chat</button>
+                </div>
+            </div>
+            
+            <!-- Group Chat -->
+            <div class="screen">
+                <div class="screen-title">💬 Group Chat</div>
+                <div class="wireframe-element">
+                    <h3>Sajek Valley Trip Chat</h3>
+                    <p>3 members</p>
+                </div>
+                
+                <div class="card" style="height: 300px; overflow-y: auto;">
+                    <div class="list-item">
+                        <div>
+                            <strong>John:</strong> Hey everyone! Excited for the trip<br>
+                            <small>2:30 PM</small>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Sarah:</strong> Same here! Should we book the transport?<br>
+                            <small>2:35 PM</small>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <strong>Rahman:</strong> I found a good deal on buses<br>
+                            <small>2:40 PM</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-input">Type your message...</div>
+                    <button class="button">Send</button>
+                </div>
+            </div>
+            
+            <!-- Trip Requests -->
+            <div class="screen">
+                <div class="screen-title">📨 Trip Requests</div>
+                <div class="card">
+                    <div class="card-header">Incoming Requests</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>From: Mike Rahman</strong><br>
+                            <small>Trip: Bandarban Hill Tracks</small><br>
+                            <small>"Would love to join your adventure!"</small>
+                        </div>
+                        <div>
+                            <button class="button">Accept</button>
+                            <button class="button danger">Reject</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Sent Requests</div>
+                    <div class="list-item">
+                        <div>
+                            <strong>To: Lisa Khan</strong><br>
+                            <small>Trip: Sylhet Tea Gardens</small><br>
+                            <small>Status: <span class="badge">Pending</span></small>
+                        </div>
+                        <button class="button danger">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Screens -->
+        <div class="wireframe-grid">
+            <!-- Blog List -->
+            <div class="screen">
+                <div class="screen-title">📖 My Blogs</div>
+                <button class="button">Create New Blog</button>
+                
+                <div class="card">
+                    <div class="card-header">Cox's Bazar Beach Adventure</div>
+                    <p><strong>Location:</strong> Cox's Bazar</p>
+                    <p><strong>Status:</strong> <span class="badge">Published</span></p>
+                    <p><strong>Tags:</strong> beach, seafood, sunset</p>
+                    <div style="margin-top: 10px;">
+                        <button class="button">Edit</button>
+                        <button class="button secondary">View</button>
+                        <button class="button danger">Archive</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Sundarbans Wildlife</div>
+                    <p><strong>Location:</strong> Sundarbans</p>
+                    <p><strong>Status:</strong> <span class="badge draft">Draft</span></p>
+                    <p><strong>Tags:</strong> wildlife, mangrove, tigers</p>
+                    <div style="margin-top: 10px;">
+                        <button class="button">Continue Writing</button>
+                        <button class="button danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transport & Lodge Forms -->
+            <div class="screen">
+                <div class="screen-title">🚌 Create New Transport</div>
+                <div class="form-group">
+                    <label>Transport Name</label>
+                    <div class="form-input">Hanif Enterprise</div>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <div class="form-input">Bus</div>
+                </div>
+                <div class="form-group">
+                    <label>From</label>
+                    <div class="form-input">Dhaka</div>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <div class="form-input">Sylhet
