@@ -51,4 +51,5 @@ Helps intercept HTTP requests and mock responses. Especially helpful for integra
 
 **Further reading:**
 
-[Best Node.js Test Framework with Benchmarks](https://romeerez.hashnode.dev/best-nodejs-test-framework-with-benchmarks)
+- [Best Node.js Test Framework with Benchmarks](https://romeerez.hashnode.dev/best-nodejs-test-framework-with-benchmarks)
+- [Writing Unit Test for express guide](https://medium.com/@vihangamallawaarachchi.dev/unit-testing-your-node-js-express-typescript-backend-c25761bbedc9)
